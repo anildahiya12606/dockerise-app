@@ -1,0 +1,16 @@
+FROM golang:1.18-alpine
+
+ARG TARGETOS
+ARG TARGETARCH
+
+WORKDIR /home/app/dockerise-app
+
+COPY ./go.* .
+
+RUN go mod download
+
+COPY . .
+
+RUN GOOS=$TARGETOS GOARCH=$TARGETARCH go build .
+
+CMD [ "./dockerise-app" ]
